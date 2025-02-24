@@ -65,7 +65,7 @@ router.post(
 
       const activationToken = createActivationToken(seller);
 
-      const activationUrl = `https://e-shop-uxlm.vercel.app/seller/activation/${activationToken}`;
+      const activationUrl = `https://e-shop-six-dusky-38.vercel.app/seller/activation/${activationToken}`;
 
       try {
         await sendMail({
