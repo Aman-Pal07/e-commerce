@@ -1,7 +1,6 @@
 const app = require("./app");
 const connectDatabase = require("./db/Database");
 const cloudinary = require("cloudinary");
-const cors = require("cors");
 
 // Handling uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -25,22 +24,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "https://e-shop-qzyr.vercel.app",
-      "https://e-shop-qzyr-git-main-aman-creations-projects.vercel.app",
-      "https://e-shop-qzyr-mr3ipg8l6-aman-creations-projects.vercel.app",
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-app.use(express.json()); // JSON parser must come after CORS
+// JSON parser must come after CORS
 
 // create server
 const server = app.listen(process.env.PORT, () => {

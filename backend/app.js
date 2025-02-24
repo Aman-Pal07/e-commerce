@@ -8,6 +8,21 @@ const cors = require("cors");
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://e-shop-qzyr.vercel.app",
+      "https://e-shop-qzyr-git-main-aman-creations-projects.vercel.app",
+      "https://e-shop-qzyr-mr3ipg8l6-aman-creations-projects.vercel.app",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/test", (req, res) => {
