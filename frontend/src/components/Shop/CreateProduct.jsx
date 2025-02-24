@@ -35,14 +35,11 @@ const CreateProduct = () => {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
-    setImages([]);
-
     files.forEach((file) => {
       const reader = new FileReader();
-
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImages((old) => [...old, reader.result]);
+          setImages((oldImages) => [...oldImages, reader.result]);
         }
       };
       reader.readAsDataURL(file);
@@ -54,9 +51,10 @@ const CreateProduct = () => {
 
     const newForm = new FormData();
 
-    images.forEach((image) => {
-      newForm.set("images", image);
+    images.forEach((image, index) => {
+      newForm.append(`images`, image); // Append images correctly
     });
+
     newForm.append("name", name);
     newForm.append("description", description);
     newForm.append("category", category);
@@ -65,6 +63,7 @@ const CreateProduct = () => {
     newForm.append("discountPrice", discountPrice);
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
+
     dispatch(
       createProduct({
         name,
@@ -78,6 +77,10 @@ const CreateProduct = () => {
         images,
       })
     );
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages(images.filter((_, i) => i !== index));
   };
 
   return (
@@ -204,15 +207,21 @@ const CreateProduct = () => {
             <label htmlFor="upload">
               <AiOutlinePlusCircle size={30} className="mt-3" color="#555" />
             </label>
-            {images &&
-              images.map((i) => (
+            {images.map((img, index) => (
+              <div key={index} className="relative">
                 <img
-                  src={i}
-                  key={i}
-                  alt=""
+                  src={img}
+                  alt="upload"
                   className="h-[120px] w-[120px] object-cover m-2"
                 />
-              ))}
+                <button
+                  onClick={() => handleRemoveImage(index)}
+                  className="absolute top-0 right-0 bg-red-500 text-white p-1 text-xs"
+                >
+                  X
+                </button>
+              </div>
+            ))}
           </div>
           <br />
           <div>

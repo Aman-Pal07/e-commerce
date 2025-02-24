@@ -1,7 +1,6 @@
 const app = require("./app");
 const connectDatabase = require("./db/Database");
 const cloudinary = require("cloudinary");
-const express = require("express");
 
 // Handling uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -24,9 +23,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // create server
 const server = app.listen(process.env.PORT, () => {
