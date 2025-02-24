@@ -35,8 +35,12 @@ app.use(
       "https://e-shop-qzyr-mr3ipg8l6-aman-creations-projects.vercel.app",
     ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.use(express.json()); // JSON parser must come after CORS
 
 // create server
 const server = app.listen(process.env.PORT, () => {
