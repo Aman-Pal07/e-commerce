@@ -16,10 +16,35 @@ router.post(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const { email } = req.body;
-      const sellerEmail = await Shop.findOne({ email });
-      if (sellerEmail) {
-        return next(new ErrorHandler("User already exists", 400));
+
+      // Check if any shop exists in the database
+      const existingShops = await Shop.find();
+
+      if (existingShops.length > 0) {
+        // If shops exist, check if the email matches the first shop's email
+        const firstShopEmail = existingShops[0].email;
+
+        if (email !== firstShopEmail) {
+          return next(
+            new ErrorHandler(
+              "Only the original shop email can create additional shops",
+              403
+            )
+          );
+        }
+
+        // Check if this email already has a shop
+        const existingShop = await Shop.findOne({ email });
+        if (existingShop) {
+          return next(
+            new ErrorHandler("You already have a shop registered", 400)
+          );
+        }
       }
+
+      // At this point, either:
+      // 1. No shops exist (first shop creation)
+      // 2. Or the email matches the first shop's email
 
       const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: "avatars",
@@ -48,12 +73,21 @@ router.post(
           subject: "Activate your Shop",
           message: `Hello ${seller.name}, please click on the link to activate your shop: ${activationUrl}`,
         });
+
         res.status(201).json({
           success: true,
-          message: `please check your email:- ${seller.email} to activate your shop!`,
+          message: `Please check your email:- ${seller.email} to activate your shop!`,
+          isFirstShop: existingShops.length === 0,
         });
       } catch (error) {
-        return next(new ErrorHandler(error.message, 500));
+        // Clean up uploaded avatar if email sending fails
+        await cloudinary.v2.uploader.destroy(myCloud.public_id);
+        return next(
+          new ErrorHandler(
+            "Error sending activation email. Please try again.",
+            500
+          )
+        );
       }
     } catch (error) {
       return next(new ErrorHandler(error.message, 400));

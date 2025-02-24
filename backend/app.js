@@ -10,7 +10,11 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://e-shop-qzyr.vercel.app/",
+    ],
     credentials: true,
   })
 );
