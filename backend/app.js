@@ -13,7 +13,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
-      "https://e-shop-uuqt.vercel.app",
+      "https://e-shop-uxlm.vercel.app",
       "https://e-shop-qzyr-git-main-aman-creations-projects.vercel.app",
       "https://e-shop-qzyr-mr3ipg8l6-aman-creations-projects.vercel.app",
     ],
