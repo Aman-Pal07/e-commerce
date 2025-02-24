@@ -24,6 +24,19 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://e-shop-qzyr.vercel.app",
+      "https://e-shop-qzyr-git-main-aman-creations-projects.vercel.app",
+      "https://e-shop-qzyr-mr3ipg8l6-aman-creations-projects.vercel.app",
+    ],
+    credentials: true,
+  })
+);
+
 // create server
 const server = app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
