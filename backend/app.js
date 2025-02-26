@@ -13,9 +13,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
-      "https://e-shop-six-dusky-38.vercel.app",
-      "https://e-shop-git-main-aman-creations-projects.vercel.app",
-      "https://e-shop-oxfdcxe8b-aman-creations-projects.vercel.app",
+      "https://e-shop-1-v07y.onrender.com",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
